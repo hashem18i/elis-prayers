@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eli's Prayers by Roffelitm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfaf6; /* Lighter, warmer background */
+            color: #333;
+        }
+        .hebrew-text {
+            font-family: 'Noto Serif Hebrew', serif;
+            direction: rtl;
+            text-align: right;
+            line-height: 2.2; /* Slightly more spacious line height */
+            font-size: 1.2rem; 
+        }
+        .english-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem; 
+            color: #555;
+            margin-top: 10px;
+            line-height: 1.8;
+        }
+        .parchment {
+            background-color: #fdf5e6; /* Creamy parchment base */
+            /* Subtle texture using multiple gradients */
+            background-image: 
+                linear-gradient(45deg, rgba(222, 184, 135, 0.05) 25%, transparent 25%), 
+                linear-gradient(-45deg, rgba(222, 184, 135, 0.05) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, rgba(222, 184, 135, 0.05) 75%),
+                linear-gradient(-45deg, transparent 75%, rgba(222, 184, 135, 0.05) 75%);
+            background-size: 60px 60px; /* Size of the texture pattern */
+            border: 1px solid #e0d0b8; /* Softer border */
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.08), 0px 0px 3px rgba(0,0,0,0.05); /* Softer shadow */
+            padding: 30px; /* More padding */
+            border-radius: 12px; /* More rounded */
+            overflow-wrap: break-word; 
+            word-wrap: break-word;
+        }
+        .prayer-title {
+            font-family: 'Noto Serif Hebrew', serif;
+            font-weight: 700;
+            font-size: 2.1em; 
+            color: #5d4037; /* Darker brown for title */
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .illustration-container {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+        .illustration-container svg {
+            width: 100px; /* Slightly larger default for illustrations */
+            height: auto;
+            fill: #8c6d5e; 
+        }
+        .custom-btn {
+            background-color: #8c6d5e; /* Muted brown */
+            color: white;
+            padding: 12px 24px; /* Larger buttons */
+            border-radius: 10px; /* More rounded buttons */
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.12);
+        }
+        .custom-btn:hover {
+            background-color: #795548; 
+            transform: translateY(-2px); /* Slightly more lift on hover */
+            box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+        }
+        .custom-btn-sm { 
+            background-color: #a1887f; 
+            color: white;
+            padding: 8px 14px; 
+            border-radius: 8px;
+            font-weight: normal; 
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin: 0 4px;
+        }
+        .custom-btn-sm:hover {
+            background-color: #8d6e63;
+        }
+        .small-tm { 
+            font-size: 0.6em;
+            vertical-align: super;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px; 
+        }
+        .logo-svg {
+            width: auto; 
+            height: 60px; 
+        }
+        .text-placeholder-notice { /* Style for the [!!! USER TO PROVIDE !!!] messages */
+            color: #c0392b; 
+            font-weight: bold;
+            text-align: center;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px dashed #c0392b;
+            background-color: #fef2f2; /* Very light red */
+            border-radius: 4px;
+        }
+
+        @media print {
+            body {
+                background-color: #fff !important; 
+            }
+            body * { 
+                visibility: hidden;
+            }
+            #prayerOutputToPrint, #prayerOutputToPrint * {
+                visibility: visible;
+            }
+            #prayerOutputToPrint {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%; 
+                margin: 0;
+                padding: 15mm; 
+                font-size: 12pt; 
+            }
+            #prayerOutputToPrint .hebrew-text {
+                font-size: inherit; 
+                line-height: 1.8;
+            }
+            #prayerOutputToPrint .english-text {
+                font-size: 0.85em; 
+            }
+            #prayerOutputToPrint .prayer-title {
+                font-size: 1.5em; 
+            }
+            #prayerOutputToPrint .parchment { 
+                background-color: #fdf5e6 !important; /* Match screen parchment */
+                background-image: none !important; /* Remove complex gradient for print if it causes issues */
+                border: 1px solid #e0d0b8 !important;
+                box-shadow: none !important;
+                -webkit-print-color-adjust: exact !important; 
+                color-adjust: exact !important; 
+            }
+            .no-print, .text-placeholder-notice { 
+                display: none !important;
+            }
+        }
+        .modal {
+            display: none; 
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5); 
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 25px;
+            border: 1px solid #ccc;
+            width: 90%;
+            max-width: 650px; 
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+            line-height: 1;
+        }
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .pdf-description {
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #eef2f7;
+            border-left: 4px solid #795548;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-gray-800">
+
+    <header class="bg-[#2a3b49] text-white p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="logo-container">
+                <svg class="logo-svg" viewBox="0 0 150 70" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" y="2" width="12" height="66" rx="4" fill="#654321"/> 
+                    <rect x="133" y="2" width="12" height="66" rx="4" fill="#654321"/>
+                    <circle cx="11" cy="2" r="6" fill="#8B4513"/> 
+                    <circle cx="11" cy="68" r="6" fill="#8B4513"/>
+                    <circle cx="139" cy="2" r="6" fill="#8B4513"/>
+                    <circle cx="139" cy="68" r="6" fill="#8B4513"/>
+                    <rect x="20" y="7" width="110" height="56" fill="#FDF5E6" stroke="#D2B48C" stroke-width="1"/> 
+                    <ellipse cx="20" cy="35" rx="4" ry="28" fill="#FAEBD7" stroke="#D2B48C" stroke-width="0.5"/> 
+                    <ellipse cx="130" cy="35" rx="4" ry="28" fill="#FAEBD7" stroke="#D2B48C" stroke-width="0.5"/>
+                    <text x="75" y="30" font-family="Noto Serif Hebrew, serif" font-size="13" fill="#5D4037" text-anchor="middle">תפילות של אליהו</text> 
+                    <text x="75" y="48" font-family="Inter, sans-serif" font-size="10" fill="#5D4037" text-anchor="middle">Eliyahou's Prayers</text> 
+                </svg>
+                <h1 class="text-2xl md:text-3xl font-bold ml-2">Eli's Prayers <span class="font-normal text-sm">by Roffeli<sup class="small-tm">tm</sup></span></h1>
+            </div>
+            <nav>
+                <button id="homeBtn" class="custom-btn bg-[#795548] hover:bg-[#5d4037] mr-2 text-sm md:text-base">Home</button>
+                <button id="aboutBtn" class="custom-btn bg-[#795548] hover:bg-[#5d4037] text-sm md:text-base">About Us</button>
+            </nav>
+        </div>
+    </header>
+
+    <main id="mainContent" class="container mx-auto p-4 mt-6">
+        <div class="bg-white p-6 rounded-lg shadow-xl">
+            <h2 class="text-2xl font-semibold mb-4 text-center text-[#4a2c2a]">Select a Prayer or Resource (נוסח עדות המזרח)</h2>
+            
+            <div class="mb-6 flex justify-center">
+                <select id="prayerSelector" class="p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-[#795548] focus:border-[#795548] w-full md:w-2/3 lg:w-1/2">
+                    <option value="">-- Choose a Prayer or Resource --</option>
+                    <optgroup label="Daily Prayers & Blessings">
+                        <option value="birkatHamazon">ברכת המזון</option>
+                        <option value="asherYatzar">ברכת אשר יצר</option>
+                        <option value="birkotHashachar">ברכות השחר</option>
+                        <option value="tefilatHaderech">תפילת הדרך</option>
+                        <option value="mincha">תפילת מנחה</option>
+                        <option value="arvit">תפילת ערבית</option>
+                        <option value="alHamichya">ברכת על המחיה</option>
+                        <option value="boreiNefashot">ברכת בורא נפשות</option>
+                    </optgroup>
+                    <optgroup label="Printable Resources (PDF)">
+                        <option value="alHamichyaCard">ברכת על המחיה (כרטיס להדפסה)</option>
+                        <option value="sefiratHaomerChart">ספירת העומר (טבלה להדפסה)</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <div id="fontControlsContainer" class="text-center my-4 no-print hidden">
+                <span class="mr-2 text-sm text-gray-700">Font Size (for on-screen text):</span>
+                <button id="decreaseFontBtn" class="custom-btn-sm" aria-label="Decrease font size">-A</button>
+                <button id="resetFontBtn" class="custom-btn-sm" aria-label="Reset font size">A</button>
+                <button id="increaseFontBtn" class="custom-btn-sm" aria-label="Increase font size">A+</button>
+            </div>
+
+            <div id="prayerOutput" class="mt-6">
+                </div>
+             <div id="prayerOutputToPrint" class="hidden"></div>
+
+        </div>
+    </main>
+
+    <div id="aboutUsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModalBtn" aria-label="Close modal">&times;</span>
+            <h2 class="text-2xl font-bold mb-4 text-[#4a2c2a]">About Eli's Prayers</h2>
+            <p class="mb-3">"Eli's Prayers by Roffelitm" is a personal project by Eliyahou Roffe.</p>
+            <p class="mb-3">This site was developed to assist individuals with their prayers, whether they are on vacation or wish to print materials for their household. Our aim is to provide accessible Sephardic (Edut HaMizrach) prayer texts.</p>
+            <p class="mb-3">While every effort has been made to ensure the accuracy of the prayer texts, users are encouraged to verify them for their personal use, especially when relying on them for religious observance. This site is offered as a community resource.</p>
+            <p class="mb-1">For questions or feedback, please contact: <a href="mailto:eliahou.roffe@gmail.com" class="text-[#795548] hover:underline">eliahou.roffe@gmail.com</a></p>
+        </div>
+    </div>
+    
+    <footer class="text-center p-6 mt-8 text-sm text-gray-700 bg-gray-200 rounded-t-lg">
+        <p class="font-semibold">App coming soon!</p>
+        <p class="my-2">To make a donation, please email: <a href="mailto:eliahou.roffe@gmail.com" class="text-[#795548] hover:underline font-medium">eliahou.roffe@gmail.com</a></p>
+        <p class="my-2">For custom giftware, visit my shop: <a href="https://elit-express.square.site" target="_blank" rel="noopener noreferrer" class="text-[#795548] hover:underline font-medium">elit-express.square.site</a></p>
+        <p class="mt-3">&copy; <span id="currentYear"></span> Eli's Prayers by Roffelitm. All rights reserved.</p>
+        <p class="text-xs mt-1">Please ensure the accuracy of prayer texts for your personal use.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            // ==========================================================================================
+            // PRAYER DATA - USER TO PROVIDE COMPLETE TEXTS
+            // Replace the placeholder messages below with the full, accurate prayer texts
+            // according to the Edut HaMizrach (Sephardic) rite.
+            // Use <p> tags to separate paragraphs.
+            // ==========================================================================================
+            const prayerData = {
+                birkatHamazon: {
+                    title: "ברכת המזון",
+                    type: "text",
+                    illustration: `
+                        <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="challahGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#F0E68C; stop-opacity:1" /> <stop offset="50%" style="stop-color:#D2B48C; stop-opacity:1" /> <stop offset="100%" style="stop-color:#B8860B; stop-opacity:1" /> </linearGradient>
+                                <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+                                    <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+                                    <feOffset dx="2" dy="2" result="offsetblur"/>
+                                    <feMerge>
+                                        <feMergeNode/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                        
+                            <path d="M20 50 
+                                     C 25 30, 35 30, 40 50 
+                                     S 55 70, 60 50 
+                                     S 75 30, 80 50
+                                     S 95 70, 100 50
+                                     L 100 55
+                                     C 95 75, 85 75, 80 55
+                                     S 65 35, 60 55
+                                     S 45 75, 40 55
+                                     S 25 35, 20 55 Z" 
+                                  fill="url(#challahGradient)" stroke="#8B4513" stroke-width="1.5" filter="url(#dropShadow)"/>
+                        
+                            <circle cx="30" cy="45" r="1" fill="#A0522D"/> <circle cx="35" cy="52" r="1" fill="#A0522D"/>
+                            <circle cx="45" cy="42" r="1" fill="#A0522D"/> <circle cx="50" cy="50" r="1" fill="#A0522D"/>
+                            <circle cx="55" cy="45" r="1" fill="#A0522D"/> <circle cx="65" cy="53" r="1" fill="#A0522D"/>
+                            <circle cx="70" cy="43" r="1" fill="#A0522D"/> <circle cx="75" cy="51" r="1" fill="#A0522D"/>
+                            <circle cx="85" cy="46" r="1" fill="#A0522D"/> <circle cx="90" cy="52" r="1" fill="#A0522D"/>
+                        </svg>
+                    `,
+                    hebrew: `
+                        <p class="text-placeholder-notice">[!!! USER TO PROVIDE COMPLETE HEBREW TEXT FOR BIRKAT HAMAZON (EDUT HAMIZRACH) HERE. Use &lt;p&gt; tags for paragraphs. !!!]</p>
+                    `,
+                    english: `
+                        <p class="text-placeholder-notice">[!!! USER TO PROVIDE COMPLETE ENGLISH TRANSLATION FOR BIRKAT HAMAZON HERE. Use &lt;p&gt; tags for paragraphs. !!!]</p>
+                    `
+                },
+                asherYatzar: {
+                    title: "ברכת אשר יצר",
+                    type: "text",
+                    illustration: null, // Placeholder for potential illustration (e.g., hands washing, abstract human form)
+                    hebrew: `
+                        <p class="text-placeholder-notice">[!!! USER TO PROVIDE COMPLETE HEBREW TEXT FOR ASHER YATZAR (EDUT HAMIZRACH) HERE. Use &lt;p&gt; tags for paragraphs. !!!]</p>
+                    `,
+                    english: `
+                        <p class="text-placeholder-notice">[!!! USER TO PROVIDE COMPLETE ENGLISH TRANSLATION FOR ASHER YATZAR HERE. Use &lt;p&gt; tags for paragraphs. !!!]</p>
+                    `
+                },
+                birkotHashachar: {
+                    title: "ברכות השחר",
+                    type: "text",
+                    illustration: null, // Placeholder for potential illustration (e.g., sunrise)
+                    hebrew: `
+                        <p class="text-placeholder-notice">[!!! USER TO PROVIDE COMPLETE HEBREW TEXTS FOR ALL BIRKOT HASHACHAR (EDUT HAMIZRACH) HERE. Use &lt;p&gt; tags for paragraphs. !!!]</p>
+                    `,
+                    english: `
+                        <p class="text-placeholder-notice">[!!! USER TO PROVIDE COMPLETE ENGLISH TRANSLATIONS FOR ALL BIRKOT HASHACHAR HERE. Use &lt;p&gt; tags for paragraphs. !!!]</p>
+                    `
+                },
+                tefilatHaderech: {
+                    title: "תפילת הדרך",
+                    type: "text",
+                    illustration: `
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="40" fill="none" stroke="#8c6d5e" stroke-width="2"/>
+                            <line x1="50" y1="15" x2="50" y2="85" stroke="#8c6d5e" stroke-width="2"/> <line x1="15" y1="50" x2="85" y2="50" stroke="#8c6d5e" stroke-width="2"/> <polygon points="50,10 55,20 45,20" fill="#8c6d5e"/> <text x="50" y="12" font-family="Arial" font-size="8" fill="#8c6d5e" text-anchor="middle">N</text>
+                            <text x="88" y="53" font-family="Arial" font-size="8" fill="#8c6d5e" text-anchor="middle">E</text>
+                            <text x="50" y="92" font-family="Arial" font-size="8" fill="#8c6d5e" text-anchor="middle">S</text>
+                            <text x="12" y="53" font-family="Arial" font-size="8" fill="#8c6d5e" text-anchor="middle">W</text>
+                            <line x1="22" y1="22" x2="78" y2="78" stroke="#b08d7f" stroke-width="1"/> <line x1="22" y1="78" x2="78" y2="22" stroke="#b08d7f" stroke-width="1"/> </svg>
+                    `, 
+                    hebrew: `
+                        <p class="text-placeholder-notice">[!!! USER TO PROVIDE COMPLETE HEBREW TEXT FOR TEFILAT HADERECH (EDUT HAMIZRACH) HERE. Use &lt;p&gt; tags for paragraphs. !!!]</p>
+                    `,
+                    english: `
+                        <p class="text-placeholder-notice">[!!! USER TO PROVIDE COMPLETE ENGLISH TRANSLATION FOR TEFILAT HADERECH HERE. Use &lt;p&gt; tags for paragraphs. !!!]</p>
+                    `
+                },
+                mincha: {
+                    title: "תפילת מנחה",
+                    type: "text",
+                    illustration: null, // Placeholder for potential illustration (e.g., setting sun)
+                    hebrew: `
+                        <p class="text-placeholder-notice">[!!! USER TO PROVIDE COMPLETE HEBREW TEXT FOR TEFILAT MINCHA (EDUT HAMIZRACH) HERE, including Ashrei, Kaddish, Amidah, Repetition, Kedusha, Tachanun, Aleinu, etc. Use &lt;p&gt; tags for paragraphs. !!!]</p>
+                    `,
+                    english: `
+                        <p class="text-placeholder-notice">[!!! USER TO PROVIDE COMPLETE ENGLISH TRANSLATION FOR TEFILAT MINCHA HERE. Use &lt;p&gt; tags for paragraphs. !!!]</p>
+                    `
+                },
+                arvit: {
+                    title: "תפילת ערבית",
+                    type: "text",
+                    illustration: null, // Placeholder for potential illustration (e.g., stars/moon)
+                    hebrew: `
+                        <p class="text-placeholder-notice">[!!! USER TO PROVIDE COMPLETE HEBREW TEXT FOR TEFILAT ARVIT (EDUT HAMIZRACH) HERE, including Barechu, Shema and its blessings, Amidah, Aleinu, etc. Use &lt;p&gt; tags for paragraphs. !!!]</p>
+                    `,
+                    english: `
+                        <p class="text-placeholder-notice">[!!! USER TO PROVIDE COMPLETE ENGLISH TRANSLATION FOR TEFILAT ARVIT HERE. Use &lt;p&gt; tags for paragraphs. !!!]</p>
+                    `
+                },
+                alHamichya: {
+                    title: "ברכת על המחיה",
+                    type: "text",
+                    illustration: null, // Placeholder (e.g., grapes, wheat)
+                    hebrew: `
+                        <p class="text-placeholder-notice">[!!! USER TO PROVIDE COMPLETE HEBREW TEXT FOR AL HAMICHYA (EDUT HAMIZRACH) HERE, including variations. Use &lt;p&gt; tags for paragraphs. !!!]</p>
+                    `,
+                    english: `
+                        <p class="text-placeholder-notice">[!!! USER TO PROVIDE COMPLETE ENGLISH TRANSLATION FOR AL HAMICHYA HERE. Use &lt;p&gt; tags for paragraphs. !!!]</p>
+                    `
+                },
+                boreiNefashot: {
+                    title: "ברכת בורא נפשות",
+                    type: "text",
+                    illustration: null,
+                    hebrew: `
+                         <p class="text-placeholder-notice">[!!! USER TO PROVIDE COMPLETE HEBREW TEXT FOR BOREI NEFASHOT (EDUT HAMIZRACH) HERE. Use &lt;p&gt; tags for paragraphs. !!!]</p>
+                    `,
+                    english: `
+                        <p class="text-placeholder-notice">[!!! USER TO PROVIDE COMPLETE ENGLISH TRANSLATION FOR BOREI NEFASHOT HERE. Use &lt;p&gt; tags for paragraphs. !!!]</p>
+                    `
+                },
+                alHamichyaCard: {
+                    title: "ברכת על המחיה (כרטיס להדפסה)",
+                    type: "pdf",
+                    pdfFileName: "Al-Hamichya-Card.pdf", 
+                    description: "This is a printable PDF card for Birkat Al Hamichya. The text below is extracted from the PDF for on-screen viewing and for the 'Print Displayed Text' button functionality.",
+                    hebrew: `
+                        <p class="text-placeholder-notice">[TEXT EXTRACTED FROM UPLOADED PDF - REVIEW FOR ACCURACY AND COMPLETENESS]</p>
+                        <p>בָּרוּךְ אַתָּה ה' אֱלֹקֵינוּ מֶלֶךְ הָעוֹלָם</p>
+                        <p>עַל הַמִּחְיָה וְעַל הַכַּלְכָּלָה (לחמשת מיני דגן)</p>
+                        <p>עַל הַגֶּפֶן וְעַל פְּרִי הַנֶּפֶן (על היין)</p>
+                        <p>עַל הָעֵץ וְעַל פְּרִי הָעֵץ (על פירות משבעת המינים)</p>
+                        <p>וְעַל תְּנוּבַת הַשָּׂדֶה וְעַל אֶרֶץ חֶמְדָּה טוֹבָה וּרְחָבָה שֶׁרְצִיתָ וְהִנְחַלְתָּ לַאֲבוֹתֵינוּ לֶאֱכוֹל מִפִּרְיָהּ וְלִשְׂבּוֹעַ מִטוּבָהּ. רַחֵם (נָא) ה' אֱלֹקֵינוּ עַל יִשְׂרָאֵל עַמָּךְ וְעַל יְרוּשָׁלַיִם עִירֶךְ וְעַל צִיּוֹן מִשְׁכַּן כְּבוֹדֶךָ, וְעַל מִזְבְּחֶךָ. וְעַל הֵיכָלֶךְ. וּבְנֵה יְרוּשָׁלַיִם עִיר הַקְדֶשׁ בִּמְהֵרָה בְיָמֵינוּ. וְהַעֲלֵנוּ לְתוֹכָהּ וְשַׁמְחֵנוּ בְּבִנְיָנָהּ, וְנֹאכַל מִפְּרְיָהּ וְנִשְׂבַּע מִטּוּבָהּ וּנְבָרֶכְךָ עָלֶיהָ בִּקְדְשָׁה וּבְטָהֳרָה.</p>
+                        <p class="text-blue-600">[נוסח לשבת: וּרְצֵה וְהַחֲלִיצֵנוּ בְּיוֹם הַשַׁבָּת הַזֶּה]</p>
+                        <p class="text-blue-600">[נוסח לראש חודש: וְזָכְרֵנוּ לְטוֹבָה בְּיוֹם רֹאשׁ הַחוֹדֶשׁ הַזֶּה]</p>
+                        <p class="text-blue-600">[נוסח ליום טוב: וְשַׂמְחֵנוּ בְּיוֹם חַג (פלוני) הַזֶּה]</p>
+                        <p>כִּי אַתָּה ה' טוֹב וּמֵטִיב לַכּל וְנוֹדֶה לָּךְ עַל הָאָרֶץ וְעַל הַמִּחְיָה / וְעַל פְּרִי הַגֶּפֶן / וְעַל הַפָּרוֹת. בָּרוּךְ אַתָּה ה' עַל הָאָרֶץ וְעַל הַמִּחְיָה / וְעַל פְּרִי הַגֶּפֶן / וְעַל הַפֶּרוֹת.</p>
+                    `,
+                    english: `
+                        <p class="text-placeholder-notice">[TEXT EXTRACTED FROM UPLOADED PDF - REVIEW FOR ACCURACY AND COMPLETENESS]</p>
+                        <p>Blessed are You, Lord our G-d, King of the universe, for</p>
+                        <p>the sustenance and for the nourishment (After food prepared from the five grains)</p>
+                        <p>(and for) the vine and for the fruit of the vine (After wine or grape juice)</p>
+                        <p>(and for) the tree and the fruit of the tree (After grapes, figs, pomegranates, olives or dates)</p>
+                        <p>for the produce of the field, and for the precious, good, and spacious land which You have graciously given as a heritage to our ancestors, to eat of its fruit and to be satiated with its goodness. Have mercy, Lord our G-d, on Israel Your people, on Jerusalem Your city, on Zion the abode of Your glory, on Your altar, and on Your Temple. Rebuild Jerusalem, the holy city, speedily in our days, and bring us up to it and make us rejoice in it, and we will bless You in holiness and purity.</p>
+                        <p class="text-blue-600">[On Shabbat: May it please You to strengthen us on this Shabbat day.]</p>
+                        <p class="text-blue-600">[On Rosh Chodesh: Remember us for good on this day of Rosh Chodesh.]</p>
+                        <p class="text-blue-600">[On Festivals: Make us rejoice on this day of the festival of (Name of festival).]</p>
+                        <p>For You, Lord, are good and do good to all, and we offer thanks to You for the land and for the sustenance / (and for) the fruit of the vine / (and for) the fruits. Blessed are You, Lord, for the land and for the sustenance / (and for) the fruit of the vine / (and for) the fruits.</p>
+                    `
+                },
+                sefiratHaomerChart: {
+                    title: "ספירת העומר (טבלה להדפסה)",
+                    type: "pdf",
+                    pdfFileName: "omer.pdf", 
+                    description: "This is a printable PDF chart for Sefirat Ha'omer. The text below contains introductory instructions from the PDF. The full chart is available via the 'Download Original PDF' button.",
+                    hebrew: `
+                        <p class="text-placeholder-notice">[TEXT EXTRACTED FROM UPLOADED PDF - REVIEW FOR ACCURACY AND COMPLETENESS]</p>
+                        <p>סדר ספירת העומר תשפ"ה</p>
+                        <p>העומר נספר מהלילה השני של פסח עד הלילה שלפני שבועות. סופרים בעמידה, אחרי צאת הכוכבים. אין לומר "הלילה יום פלוני" לפני הספירה. מי ששכח לספור בלילה, יספור ביום המחרת ללא ברכה ויכול להמשיך לספור עם ברכה בלילות הבאים. מי שהחסיר יום שלם, לא יספור עוד עם ברכה, אך יכול לצאת ידי חובה על ידי עניית אמן לברכת אחר (שומע כעונה).</p>
+                        <p>לְשֵׁם יִחוּד קוּדְשָׁא בְּרִיךְ הוּא וּשְׁכִינְתֵיהּ...</p>
+                        <p>בָּרוּךְ אַתָּה ה' אֱלֹקֵינוּ מֶלֶךְ הָעוֹלָם, אֲשֶׁר קִדְּשָׁנוּ בְּמִצְוֹתָיו וְצִוָּנוּ עַל סְפִירַת הָעוֹמֶר.</p>
+                        <p>הָרַחֲמָן הוּא יַחֲזִיר לָנוּ עֲבוֹדַת בֵּית הַמִּקְדָּשׁ לִמְקוֹמָהּ, בִּמְהֵרָה בְיָמֵינוּ. אָמֵן סֶלָה.</p>
+                    `,
+                    english: `
+                        <p class="text-placeholder-notice">[TEXT EXTRACTED FROM UPLOADED PDF - REVIEW FOR ACCURACY AND COMPLETENESS]</p>
+                        <p>Sefirat Ha'Omer Chart 2025</p>
+                        <p>The Omer is counted from the second night of Pesach until the night before Shavuot. The Omer is counted while standing, after nightfall. One should not say, "Tonight is the Xth day," prior to counting. One who neglects to count at night should count without a blessing on the following day and may resume counting with a blessing on the subsequent night. One who misses a day entirely should no longer count with a blessing, but one can still fulfill one's obligation via responding amen to another's blessing (shome'a k'oneh).</p>
+                        <p>L'shem yichud...</p>
+                        <p>Blessed are You, Lord our G-d, King of the universe, Who has sanctified us with His commandments and commanded us concerning the counting of the Omer.</p>
+                        <p>May the Merciful One restore for us the service of the Beit Hamikdash to its place, speedily in our days. Amen Selah.</p>
+                    `
+                }
+            };
+            // ==========================================================================================
+            // END OF PRAYER DATA 
+            // ==========================================================================================
+
+
+            const prayerSelector = document.getElementById('prayerSelector');
+            const prayerOutputDiv = document.getElementById('prayerOutput');
+            const prayerOutputToPrintDiv = document.getElementById('prayerOutputToPrint');
+            const fontControlsContainer = document.getElementById('fontControlsContainer');
+            const decreaseFontBtn = document.getElementById('decreaseFontBtn');
+            const resetFontBtn = document.getElementById('resetFontBtn');
+            const increaseFontBtn = document.getElementById('increaseFontBtn');
+
+            let currentHebrewFontSize = 1.2; 
+            let currentEnglishFontSize = 1.0; 
+            const defaultHebrewFontSize = 1.2;
+            const defaultEnglishFontSize = 1.0;
+            const fontSizeStep = 0.1; 
+
+            prayerSelector.addEventListener('change', function() {
+                const selectedPrayerKey = this.value;
+                if (selectedPrayerKey && prayerData[selectedPrayerKey]) {
+                    displayPrayer(prayerData[selectedPrayerKey]);
+                    if (prayerData[selectedPrayerKey].type === "text") {
+                        fontControlsContainer.classList.remove('hidden');
+                    } else {
+                        fontControlsContainer.classList.add('hidden');
+                    }
+                } else {
+                    prayerOutputDiv.innerHTML = ''; 
+                    fontControlsContainer.classList.add('hidden'); 
+                }
+            });
+
+            function updateFontSizes() {
+                const hebrewElements = prayerOutputDiv.querySelectorAll('.hebrew-text p, .hebrew-text'); 
+                const englishElements = prayerOutputDiv.querySelectorAll('.english-text p, .english-text'); 
+                
+                hebrewElements.forEach(el => el.style.fontSize = `${currentHebrewFontSize}rem`);
+                englishElements.forEach(el => el.style.fontSize = `${currentEnglishFontSize}rem`);
+            }
+
+            if (decreaseFontBtn) {
+                decreaseFontBtn.addEventListener('click', () => {
+                    currentHebrewFontSize = Math.max(0.5, currentHebrewFontSize - fontSizeStep); 
+                    currentEnglishFontSize = Math.max(0.4, currentEnglishFontSize - fontSizeStep); 
+                    updateFontSizes();
+                });
+            }
+
+            if (resetFontBtn) {
+                resetFontBtn.addEventListener('click', () => {
+                    currentHebrewFontSize = defaultHebrewFontSize;
+                    currentEnglishFontSize = defaultEnglishFontSize;
+                    updateFontSizes();
+                });
+            }
+            
+            if (increaseFontBtn) {
+                increaseFontBtn.addEventListener('click', () => {
+                    currentHebrewFontSize += fontSizeStep;
+                    currentEnglishFontSize += fontSizeStep;
+                    updateFontSizes();
+                });
+            }
+
+
+            function displayPrayer(prayer) {
+                let illustrationHtml = '';
+                if (prayer.illustration) {
+                    illustrationHtml = `<div class="illustration-container">${prayer.illustration}</div>`;
+                }
+
+                let descriptionHtml = '';
+                if (prayer.description) {
+                    descriptionHtml = `<div class="pdf-description"><p>${prayer.description}</p></div>`;
+                }
+                
+                let downloadButtonHtml = '';
+                if (prayer.type === 'pdf' && prayer.pdfFileName) {
+                    downloadButtonHtml = `<a href="${prayer.pdfFileName}" download class="custom-btn bg-green-600 hover:bg-green-700 mr-2">Download Original PDF</a>`;
+                } else {
+                    downloadButtonHtml = `<button onclick="downloadPrayerAsPDFWrapper('${prayer.title.replace(/\s+/g, '_')}')" class="custom-btn">Download Text as PDF</button>`;
+                }
+
+                const prayerHtml = `
+                    <div class="parchment" id="currentPrayerContent">
+                        <h3 class="prayer-title">${prayer.title}</h3>
+                        ${descriptionHtml}
+                        ${illustrationHtml}
+                        <div class="hebrew-text" lang="he">${prayer.hebrew || ''}</div>
+                        ${prayer.type === 'text' ? `<button class="toggle-translation-btn custom-btn mt-4 mb-2 text-sm no-print">Show/Hide Translation</button>` : ''}
+                        <div class="english-text ${prayer.type === 'text' ? 'hidden' : ''}">${prayer.english || ''}</div>
+                    </div>
+                    <div class="mt-6 text-center no-print">
+                        <button onclick="printPrayerContentWrapper()" class="custom-btn mr-2">Print Displayed Text</button>
+                        ${downloadButtonHtml}
+                    </div>
+                `;
+                prayerOutputDiv.innerHTML = prayerHtml;
+                
+                if (prayer.type === 'text') {
+                    updateFontSizes(); 
+                    const toggleBtn = prayerOutputDiv.querySelector('.toggle-translation-btn');
+                    if (toggleBtn) {
+                        toggleBtn.addEventListener('click', function() {
+                            const englishTextDiv = this.closest('#currentPrayerContent').querySelector('.english-text');
+                            englishTextDiv.classList.toggle('hidden');
+                        });
+                    }
+                } else { 
+                    const englishTextDiv = prayerOutputDiv.querySelector('.english-text');
+                    if(englishTextDiv) englishTextDiv.classList.remove('hidden');
+                }
+                
+                prayerOutputToPrintDiv.innerHTML = ''; 
+            }
+            
+            function preparePrintDiv(includeTranslation) {
+                const currentPrayerNode = document.getElementById('currentPrayerContent');
+                if (!currentPrayerNode) return null;
+
+                const clone = currentPrayerNode.cloneNode(true);
+                
+                const elementsToRemove = clone.querySelectorAll('.toggle-translation-btn, .custom-btn, .no-print, .pdf-description a, .text-placeholder-notice'); 
+                elementsToRemove.forEach(el => el.remove());
+
+                const englishTextInClone = clone.querySelector('.english-text');
+                const prayerDetails = prayerData[prayerSelector.value];
+
+                if (englishTextInClone) {
+                    if (prayerDetails && (prayerDetails.type === "pdf" || includeTranslation)) { 
+                        englishTextInClone.classList.remove('hidden');
+                    } else {
+                        englishTextInClone.remove(); 
+                    }
+                }
+                
+                if (prayerDetails && prayerDetails.type === "text") { 
+                    const hebrewElementsClone = clone.querySelectorAll('.hebrew-text p, .hebrew-text');
+                    hebrewElementsClone.forEach(el => el.style.fontSize = `${currentHebrewFontSize}rem`);
+                    if (includeTranslation) {
+                        const englishElementsClone = clone.querySelectorAll('.english-text p, .english-text');
+                        englishElementsClone.forEach(el => el.style.fontSize = `${currentEnglishFontSize}rem`);
+                    }
+                }
+                prayerOutputToPrintDiv.innerHTML = ''; 
+                prayerOutputToPrintDiv.appendChild(clone);
+                return prayerOutputToPrintDiv;
+            }
+
+            window.downloadPrayerAsPDFWrapper = async function(filename = 'Eli_Prayer') {
+                const selectedPrayerDetails = prayerData[prayerSelector.value];
+                if (!selectedPrayerDetails) {
+                    alert("Please select a prayer or resource first.");
+                    return;
+                }
+                
+                if (selectedPrayerDetails.type === 'pdf' && selectedPrayerDetails.pdfFileName) {
+                    if (!confirm("This resource is best downloaded as its original PDF. Do you want to try generating a PDF from the displayed text instead?")) {
+                        const a = document.createElement('a');
+                        a.href = selectedPrayerDetails.pdfFileName;
+                        a.download = selectedPrayerDetails.pdfFileName;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        return;
+                    }
+                }
+
+                const { jsPDF } = window.jspdf; 
+                if (typeof jsPDF === 'undefined') {
+                    alert("PDF library not loaded. Please try again in a moment.");
+                    return;
+                }
+                
+                const prayerContentElement = document.getElementById('currentPrayerContent');
+                if (!prayerContentElement) {
+                    alert("Please select a prayer or resource first.");
+                    return;
+                }
+                
+                let includeTranslation = selectedPrayerDetails.type === "pdf" ? true : confirm("Include English translation in the PDF?");
+
+                const printableElement = preparePrintDiv(includeTranslation);
+                if (!printableElement) return;
+                
+                printableElement.style.display = 'block';
+                printableElement.style.position = 'absolute';
+                printableElement.style.left = '-9999px';
+                printableElement.style.top = '-9999px';
+                printableElement.style.width = '210mm'; 
+                const parchmentClone = printableElement.querySelector('.parchment');
+                if (parchmentClone) {
+                    parchmentClone.style.backgroundColor = '#fdf5e6'; // Match screen parchment
+                }
+
+                try {
+                    const canvas = await html2canvas(printableElement, {
+                        scale: 2.5, 
+                        useCORS: true,
+                        logging: false,
+                        backgroundColor: null, 
+                        onclone: (documentClone) => {
+                            documentClone.querySelectorAll('.text-placeholder-notice').forEach(el => el.remove()); 
+                            const hebrewTexts = documentClone.querySelectorAll('.hebrew-text, .hebrew-text p');
+                            hebrewTexts.forEach(el => {
+                                el.style.fontFamily = "'Noto Serif Hebrew', serif";
+                                if (selectedPrayerDetails.type === "text") el.style.fontSize = `${currentHebrewFontSize}rem`; 
+                            });
+                            const prayerTitles = documentClone.querySelectorAll('.prayer-title');
+                            prayerTitles.forEach(el => {
+                                el.style.fontFamily = "'Noto Serif Hebrew', serif";
+                            });
+                            if (includeTranslation) {
+                                const englishTexts = documentClone.querySelectorAll('.english-text, .english-text p');
+                                englishTexts.forEach(el => {
+                                    el.style.fontFamily = "'Inter', sans-serif";
+                                    if (selectedPrayerDetails.type === "text") el.style.fontSize = `${currentEnglishFontSize}rem`; 
+                                });
+                            }
+                            const parchmentInClone = documentClone.querySelector('.parchment');
+                            if (parchmentInClone) {
+                                parchmentInClone.style.backgroundColor = '#fdf5e6'; 
+                            }
+                        }
+                    });
+
+                    const imgData = canvas.toDataURL('image/png');
+                    const pdf = new jsPDF({
+                        orientation: 'portrait',
+                        unit: 'mm',
+                        format: 'a4'
+                    });
+
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = pdf.internal.pageSize.getHeight();
+                    const margin = 15; 
+                    const contentWidth = pdfWidth - (2 * margin);
+                    const contentHeight = pdfHeight - (2 * margin);
+
+                    const imgProps = pdf.getImageProperties(imgData);
+                    const imgRatio = imgProps.width / imgProps.height;
+                    
+                    let finalImgWidth = imgProps.width;
+                    let finalImgHeight = imgProps.height;
+
+                    if (finalImgWidth > contentWidth) {
+                        finalImgWidth = contentWidth;
+                        finalImgHeight = finalImgWidth / imgRatio;
+                    }
+                    if (finalImgHeight > contentHeight) { 
+                        let currentY = 0;
+                        const pageImgHeightCanvas = contentHeight * (imgProps.width / finalImgWidth); 
+
+                        while (currentY < imgProps.height) {
+                            const sHeight = Math.min(pageImgHeightCanvas, imgProps.height - currentY); 
+                            
+                            const tempCanvas = document.createElement('canvas');
+                            tempCanvas.width = imgProps.width;
+                            tempCanvas.height = sHeight;
+                            const tempCtx = tempCanvas.getContext('2d');
+                            tempCtx.drawImage(canvas, 0, currentY, imgProps.width, sHeight, 0, 0, imgProps.width, sHeight);
+                            const pageImgData = tempCanvas.toDataURL('image/png');
+
+                            const pageFinalHeight = sHeight * (finalImgWidth / imgProps.width);
+
+                            pdf.addImage(pageImgData, 'PNG', margin, margin, finalImgWidth, pageFinalHeight);
+                            currentY += sHeight;
+
+                            if (currentY < imgProps.height) {
+                                pdf.addPage();
+                            }
+                        }
+                    } else {
+                        const x = margin + (contentWidth - finalImgWidth) / 2; 
+                        const y = margin + (contentHeight - finalImgHeight) / 2; 
+                        pdf.addImage(imgData, 'PNG', x, y, finalImgWidth, finalImgHeight);
+                    }
+                    
+                    pdf.save(`${filename}.pdf`);
+
+                } catch (error) {
+                    console.error("Error generating PDF:", error);
+                    alert("Sorry, there was an error generating the PDF from the displayed text. Please try again or check the console for details.");
+                } finally {
+                    if (printableElement) {
+                        printableElement.style.display = 'none';
+                        printableElement.style.position = '';
+                        printableElement.style.left = '';
+                        printableElement.style.top = '';
+                        printableElement.style.width = '';
+                    }
+                }
+            }
+            
+            window.printPrayerContentWrapper = function() {
+                const prayerContentElement = document.getElementById('currentPrayerContent');
+                if (!prayerContentElement) {
+                    alert("Please select a prayer or resource first.");
+                    return;
+                }
+                const selectedPrayerDetails = prayerData[prayerSelector.value];
+                if (!selectedPrayerDetails) { 
+                    alert("Error: Could not find prayer details.");
+                    return;
+                }
+                let includeTranslation = selectedPrayerDetails.type === "pdf" ? true : confirm("Include English translation in the printout?");
+
+                const printableElement = preparePrintDiv(includeTranslation);
+                if (!printableElement) return;
+                
+                printableElement.style.display = 'block'; 
+                
+                if (selectedPrayerDetails.type === "text") {
+                    const hebrewElementsPrint = printableElement.querySelectorAll('.hebrew-text, .hebrew-text p');
+                    hebrewElementsPrint.forEach(el => el.style.fontSize = `${currentHebrewFontSize}rem`);
+                    if(includeTranslation){
+                        const englishElementsPrint = printableElement.querySelectorAll('.english-text, .english-text p');
+                        englishElementsPrint.forEach(el => el.style.fontSize = `${currentEnglishFontSize}rem`);
+                    }
+                }
+                
+                setTimeout(() => {
+                    window.print(); 
+                    setTimeout(() => {
+                        if (printableElement) printableElement.style.display = 'none';
+                    }, 200); 
+                }, 100); 
+            }
+
+            const aboutModal = document.getElementById('aboutUsModal');
+            const aboutBtn = document.getElementById('aboutBtn');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const homeBtn = document.getElementById('homeBtn'); 
+
+            if (aboutBtn) {
+                aboutBtn.onclick = function() {
+                    if(aboutModal) aboutModal.style.display = "block";
+                }
+            }
+            if (closeModalBtn) {
+                closeModalBtn.onclick = function() {
+                    if(aboutModal) aboutModal.style.display = "none";
+                }
+            }
+            if (homeBtn) {
+                homeBtn.onclick = function() { 
+                    if(aboutModal) aboutModal.style.display = "none";
+                }
+            }
+            window.onclick = function(event) {
+                if (event.target == aboutModal) {
+                    if(aboutModal) aboutModal.style.display = "none";
+                }
+            }
+        }); 
+    </script>
+</body>
+</html>
