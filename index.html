@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eli's Prayers by Roffelitm</title>
+    <title>Eli's Prayers by Roffelitm - Universal PDF Download</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -50,17 +50,18 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             transition: background-color 0.3s, color 0.3s;
+            scroll-behavior: smooth;
         }
         .hebrew-text {
             font-family: 'Noto Serif Hebrew', serif;
             direction: rtl;
             text-align: center; 
-            line-height: 1.8; /* Further reduced line-height */
+            line-height: 1.8; 
             font-size: 1.2rem; 
-            letter-spacing: -0.02em; /* Slightly tighter letter spacing */
+            letter-spacing: -0.02em; 
         }
         .hebrew-text p { 
-            margin-bottom: 0.5em; /* Further reduced paragraph spacing */
+            margin-bottom: 0.5em; 
         }
         .parchment {
             background-color: var(--parchment-bg); 
@@ -107,10 +108,10 @@
         .custom-btn { 
             background-color: var(--button-bg); 
             color: var(--button-text);
-            padding: 8px 16px; 
+            padding: 10px 20px; 
             border-radius: 8px; 
             font-weight: bold;
-            font-size: 0.8rem; 
+            font-size: 0.9rem;  
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease;
             border: none;
             cursor: pointer;
@@ -154,20 +155,19 @@
         }
         .logo-svg {
             width: auto; 
-            height: 100px; /* Increased logo height further */
+            height: 130px; 
         }
         .header-nav-buttons {
             display: flex;
             align-items: center;
         }
         .header-nav-buttons button:not(:last-child) {
-            margin-left: 1.25rem; /* Increased spacing between Home/About */
+            margin-left: 1.25rem; 
         }
          html[dir="ltr"] .header-nav-buttons button:not(:last-child) {
             margin-right: 1.25rem;
             margin-left: 0;
         }
-
 
         .text-placeholder-notice { 
             color: #c0392b; 
@@ -197,7 +197,7 @@
             background-color: var(--button-bg);
             color: var(--button-text);
             cursor: pointer;
-            padding: 10px 12px;
+            padding: 12px 14px; 
             border-radius: 50%;
             font-size: 18px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -211,19 +211,19 @@
             left: auto;
         }
         .button-container { 
-            margin-top: 2.5rem; 
-            padding-top: 1rem; 
-            padding-bottom: 1rem; 
+            margin-top: 1.5rem; /* Adjusted for consistency */
+            padding-top: 0.5rem; 
+            padding-bottom: 0.5rem; 
             text-align: center;
         }
         .button-container .custom-btn { 
-            margin: 0.75rem; 
+            margin: 0.5rem; /* Adjusted for consistency */
         }
-
 
         @media print {
             body {
                 background-color: #fff !important; 
+                color: #000 !important;
             }
             body * { 
                 visibility: hidden;
@@ -239,29 +239,47 @@
                 margin: 0;
                 padding: 10mm; 
                 font-size: 10pt; 
+                color: #000 !important;
             }
             #prayerOutputToPrint .hebrew-text {
-                font-size: inherit; 
-                line-height: 1.6; 
-                text-align: center; 
+                font-size: inherit !important; 
+                line-height: 1.6 !important; 
+                text-align: center !important; 
+                color: #000 !important;
             }
             #prayerOutputToPrint .prayer-title {
-                font-size: 1.3em; 
+                font-size: 1.3em !important; 
+                color: #000 !important;
             }
             #prayerOutputToPrint .parchment { 
-                background-color: #fdf5e6 !important; 
+                background-color: #fff !important; 
                 background-image: none !important; 
-                border: 1px solid #e0d0b8 !important;
+                border: 1px solid #ccc !important;
                 box-shadow: none !important;
                 -webkit-print-color-adjust: exact !important; 
                 color-adjust: exact !important; 
+                color: #000 !important;
             }
-            .no-print, .text-placeholder-notice { 
+             /* Ensure specific content for PDF cards is styled for print if needed */
+            #prayerOutputToPrint #alHamichyaCardContent, 
+            #prayerOutputToPrint #sefiratHaomerChartContent {
+                background-color: #fff !important;
+                border: 1px solid #ccc !important;
+                box-shadow: none !important;
+                padding: 10mm !important; /* Consistent padding */
+            }
+            #prayerOutputToPrint #alHamichyaCardContent *,
+            #prayerOutputToPrint #sefiratHaomerChartContent * {
+                 color: #000 !important; /* Ensure all text within cards is black */
+            }
+
+            .no-print, .text-placeholder-notice, #fontControlsContainer, header, footer, #returnToTopBtn, #prayerFilter, #prayerSelector, .modal, .button-container { 
                 display: none !important;
             }
             .illustration-container img, .illustration-container svg {
                 max-width: 60% !important; 
                 page-break-inside: avoid;
+                fill: #000 !important; 
             }
         }
         .modal {
@@ -331,9 +349,9 @@
 </head>
 <body class="bg-slate-100 text-gray-800">
 
-    <header class="bg-[#2a3b49] text-white p-4 shadow-lg sticky top-0 z-50" style="background-color: var(--header-bg); color: var(--header-text);">
-        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
-            <div class="flex items-center md:absolute md:left-4"> {/* Theme toggle on the far left */}
+    <header class="bg-[#2a3b49] text-white p-4 shadow-lg sticky top-0 z-50 no-print" style="background-color: var(--header-bg); color: var(--header-text);">
+        <div class="container mx-auto flex flex-col md:flex-row md:justify-center items-center md:relative">
+            <div class="flex items-center md:absolute md:left-4"> 
                  <button id="themeToggleBtn" class="custom-btn-sm p-2" aria-label="Toggle Dark Mode">
                     <svg id="themeIconMoon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 008.25-4.502z" />
@@ -370,11 +388,11 @@
         <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-5xl lg:max-w-6xl mx-auto" style="background-color: var(--select-bg); color: var(--text-color);">
             <h2 class="text-2xl font-semibold mb-4 text-center" style="color: var(--title-color);">Select a Prayer or Resource (נוסח עדות המזרח)</h2>
             
-            <div class="mb-4">
+            <div class="mb-4 no-print">
                 <input type="text" id="prayerFilter" class="p-3 border rounded-lg shadow-sm w-full md:w-2/3 lg:w-1/2 mx-auto block" placeholder="סנן תפילות..." style="background-color: var(--select-bg); color: var(--text-color); border-color: var(--select-border);">
             </div>
 
-            <div class="mb-6 flex justify-center">
+            <div class="mb-6 flex justify-center no-print">
                 <select id="prayerSelector" class="p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-[#795548] focus:border-[#795548] w-full md:w-2/3 lg:w-1/2">
                     <option value="">-- Choose a Prayer or Resource --</option>
                     <optgroup label="Daily Prayers & Blessings">
@@ -403,12 +421,13 @@
 
             <div id="prayerOutput" class="mt-6">
                 </div>
-             <div id="prayerOutputToPrint" class="hidden"></div>
+             <div id="prayerOutputToPrint" class="hidden">
+                </div>
 
         </div>
     </main>
 
-    <div id="aboutUsModal" class="modal">
+    <div id="aboutUsModal" class="modal no-print">
         <div class="modal-content">
             <span class="close-btn" id="closeModalBtn" aria-label="Close modal">&times;</span>
             <h2 class="text-2xl font-bold mb-4" style="color: var(--title-color);">About Eli's Prayers</h2>
@@ -419,9 +438,9 @@
         </div>
     </div>
     
-    <button id="returnToTopBtn" title="Go to top">↑</button>
+    <button id="returnToTopBtn" title="Go to top" class="no-print">↑</button>
 
-    <footer class="text-center p-6 mt-8 text-sm rounded-t-lg" style="background-color: var(--footer-bg); color: var(--footer-text);">
+    <footer class="text-center p-6 mt-8 text-sm rounded-t-lg no-print" style="background-color: var(--footer-bg); color: var(--footer-text);">
         <p class="font-semibold">App coming soon!</p>
         <p class="my-2">To make a donation, please email: <a href="mailto:eliahou.roffe@gmail.com" class="font-medium hover:underline" style="color: var(--button-bg);">eliahou.roffe@gmail.com</a></p>
         <p class="my-2">For custom giftware, visit my shop: <a href="https://elit-express.square.site" target="_blank" rel="noopener noreferrer" class="font-medium hover:underline" style="color: var(--button-bg);">elit-express.square.site</a></p>
@@ -436,7 +455,7 @@
             const prayerData = {
                 birkatHamazon: {
                     title: "ברכת המזון",
-                    type: "text",
+                    type: "text", // Type remains "text" for differentiation, but will still get PDF download
                     illustration: `
                         <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
                             <defs>
@@ -480,12 +499,12 @@
                     type: "text",
                     illustration: `
                         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="50" cy="50" r="40" fill="none" stroke="#8c6d5e" stroke-width="2"/>
-                            <line x1="50" y1="15" x2="50" y2="85" stroke="#8c6d5e" stroke-width="2"/> <line x1="15" y1="50" x2="85" y2="50" stroke="#8c6d5e" stroke-width="2"/> <polygon points="50,10 55,20 45,20" fill="#8c6d5e"/> <text x="50" y="12" font-family="Arial" font-size="8" fill="#8c6d5e" text-anchor="middle">N</text>
-                            <text x="88" y="53" font-family="Arial" font-size="8" fill="#8c6d5e" text-anchor="middle">E</text>
-                            <text x="50" y="92" font-family="Arial" font-size="8" fill="#8c6d5e" text-anchor="middle">S</text>
-                            <text x="12" y="53" font-family="Arial" font-size="8" fill="#8c6d5e" text-anchor="middle">W</text>
-                            <line x1="22" y1="22" x2="78" y2="78" stroke="#b08d7f" stroke-width="1"/> <line x1="22" y1="78" x2="78" y2="22" stroke="#b08d7f" stroke-width="1"/> </svg>
+                            <circle cx="50" cy="50" r="40" fill="none" stroke="var(--button-bg)" stroke-width="2"/>
+                            <line x1="50" y1="15" x2="50" y2="85" stroke="var(--button-bg)" stroke-width="2"/> <line x1="15" y1="50" x2="85" y2="50" stroke="var(--button-bg)" stroke-width="2"/> <polygon points="50,10 55,20 45,20" fill="var(--button-bg)"/> <text x="50" y="12" font-family="Arial" font-size="8" fill="var(--button-bg)" text-anchor="middle">N</text>
+                            <text x="88" y="53" font-family="Arial" font-size="8" fill="var(--button-bg)" text-anchor="middle">E</text>
+                            <text x="50" y="92" font-family="Arial" font-size="8" fill="var(--button-bg)" text-anchor="middle">S</text>
+                            <text x="12" y="53" font-family="Arial" font-size="8" fill="var(--button-bg)" text-anchor="middle">W</text>
+                            <line x1="22" y1="22" x2="78" y2="78" stroke="var(--button-hover-bg)" stroke-width="1"/> <line x1="22" y1="78" x2="78" y2="22" stroke="var(--button-hover-bg)" stroke-width="1"/> </svg>
                     `, 
                     hebrew: `
                         <p class="text-placeholder-notice">PASTE COMPLETE HEBREW TEXT FOR TEFILAT HADERECH (EDUT HAMIZRACH) HERE. Separate paragraphs with a blank line.</p>
@@ -551,7 +570,7 @@
                         <p>בְּעָלְמָא דִּי בְרָא כִּרְעוּתֵיהּ. וְיַמְלִיךְ מַלְכוּתֵיהּ. וְיַצְמַח פֻּרְקָנֵיהּ. וִיקָרֵב מְשִׁיחֵהּ. (אמן):</p>
                         <p>בְּחַיֵּיכון וּבְיומֵיכון וּבְחַיֵּי דְכל בֵּית יִשְׂרָאֵל בַּעֲגָלָא וּבִזְמַן קָרִיב וְאִמְרוּ אָמֵן. (אמן):</p>
                         <p>יְהֵא שְׁמֵהּ רַבָּא מְבָרַךְ לְעָלַם וּלְעָלְמֵי עָלְמַיָּא יִתְבָּרַךְ. וְיִשְׁתַּבַּח. וְיִתְפָּאַר. וְיִתְרומַם. וְיִתְנַשֵּׂא. וְיִתְהַדָּר. וְיִתְעַלֶּה. וְיִתְהַלָּל שְׁמֵיהּ דְּקֻדְשָׁא בְּרִיךְ הוּא. (אמן):</p>
-                        <p>לְעֵלָּא מִן כָּל בִּרְכָתָא. שִׁירָתָא. תִּשְׁבְּחָתָא וְנֶחָמָתָא. דַּאֲמִירָן בְּעָלְמָא וְאִמְרוּ אָמֵן. (אמן):</p>
+                        <p>לְעֵילָּא מִן כָּל בִּרְכָתָא. שִׁירָתָא. תִּשְׁבְּחָתָא וְנֶחָמָתָא. דַּאֲמִירָן בְּעָלְמָא וְאִמְרוּ אָמֵן. (אמן):</p>
                         <p>וְהוּא רַחוּם יְכַפֵּר עָון וְלא יַשְׁחִית וְהִרְבָּה לְהָשִׁיב אַפּו. וְלא יָעִיר כָּל חֲמָתו:</p>
                         <p>ה' הושִׁיעָה. הַמֶּלֶךְ יַעֲנֵנוּ בְיום קָרְאֵנוּ:</p>
                         <p>ואומר החזן - בָּרְכוּ אֶת ה' הַמְברָךְ:</p>
@@ -573,7 +592,7 @@
                         <p>וְנָתַתִּי מְטַר אַרְצְכֶם בְּעִתּו יורֶה וּמַלְקושׁ. וְאָסַפְתָּ דְגָנֶךָ וְתִירשְׁךָ וְיִצְהָרֶךָ:</p>
                         <p>וְנָתַתִּי עֵשֶׂב בְּשָׂדְךָ לִבְהֶמְתֶּךָ. וְאָכַלְתָּ וְשָׂבָעְתָּ:</p>
                         <p>הִשָּׁמְרוּ לָכֶם פֶּן יִפְתֶּה לְבַבְכֶם. וְסַרְתֶּם וַעֲבַדְתֶּם אֱלהִים אֲחֵרִים וְהִשְׁתַּחֲוִיתֶם לָהֶם:</p>
-                        <p>וְחָרָה) אַף ה' בָּכֶם וְעָצַר אֶת הַשָּׁמַיִם וְלא יִהְיֶה מָטָר וְהָאֲדָמָה לא תִתֵּן אֶת יְבוּלָהּ. וַאֲבַדְתֶּם מְהֵרָה מֵעַל הָאָרֶץ הַטּבָה אֲשֶׁר ה' נתֵן לָכֶם:</p>
+                        <p>וְחָרָה אַף ה' בָּכֶם וְעָצַר אֶת הַשָּׁמַיִם וְלא יִהְיֶה מָטָר וְהָאֲדָמָה לא תִתֵּן אֶת יְבוּלָהּ. וַאֲבַדְתֶּם מְהֵרָה מֵעַל הָאָרֶץ הַטּבָה אֲשֶׁר ה' נתֵן לָכֶם:</p>
                         <p>וְשַׂמְתֶּם אֶת דְּבָרַי אֵלֶּה עַל לְבַבְכֶם וְעַל נַפְשְׁכֶם. וּקְשַׁרְתֶּם אתָם לְאות עַל יֶדְכֶם וְהָיוּ לְטוטָפת בֵּין עֵינֵיכֶם:</p>
                         <p>וְלִמַּדְתֶּם אתָם אֶת בְּנֵיכֶם לְדַבֵּר בָּם. בְּשִׁבְתְּךָ בְּבֵיתֶךָ וּבְלֶכְתְּךָ בַדֶּרֶךְ וּבְשָׁכְבְּךָ וּבְקוּמֶךָ:</p>
                         <p>וּכְתַבְתָּם עַל מְזוּזות בֵּיתֶךָ וּבִשְׁעָרֶיךָ:</p>
@@ -587,7 +606,7 @@
                         <p>וחוזר הש"ץ - ה' אֱלהֵיכֶם אֱמֶת:</p>
                         <p>הברכות שאחרי קריאת שמע</p>
                         <p>וֶאֱמוּנָה כָּל זאת וְקַיָּם עָלֵינוּ. כִּי הוּא ה' אֱלהֵינוּ וְאֵין זוּלָתו. וַאֲנַחְנוּ יִשְׂרָאֵל עַמּו. הַפּודֵנוּ מִיַּד מְלָכִים. הַגּאֲלֵנוּ מַלְכֵּנוּ מִכַּף כָּל עָרִיצִים. הָאֵל הַנִּפְרָע לָנוּ מִצָּרֵינוּ. הַמְשַׁלֵּם גְּמוּל לְכָל אויְבֵי נַפְשֵׁנוּ: הַשָּׂם נַפְשֵׁנוּ בַּחַיִּים וְלא נָתַן לַמּוט רַגְלֵנוּ. הַמַּדְרִיכֵנוּ עַל בָּמות אויְבֵינוּ. וַיָּרֶם קַרְנֵנוּ עַל כָּל שׂונְאֵינוּ. הָאֵל הָעושֶׂה לָנוּ נִסִּים נְקָמָה בְּפַרְעה. בְּאותות וּבְמופְתִים בְּאַדְמַת בְּנֵי חָם. הַמַּכֶּה בְעֶבְרָתו כָּל בְּכורֵי מִצְרָיִם. וַיּוצִיא אֶת עַמּו יִשְׂרָאֵל מִתּוכָם לְחֵרוּת עולָם. הַמַּעֲבִיר בָּנָיו בֵּין גִּזְרֵי יַם סוּף. וְאֶת רודְפֵיהֶם וְאֶת שׂונְאֵיהֶם בִּתְהומות טִבַּע. רָאוּ בָנִים אֶת גְּבוּרָתו שִׁבְּחוּ וְהודוּ לִשְׁמו. וּמַלְכוּתו בְרָצון קִבְּלוּ עֲלֵיהֶם. משֶׁה וּבְנֵי יִשְׂרָאֵל לְךָ עָנוּ שִׁירָה בְּשִׂמְחָה רַבָּה וְאָמְרוּ כֻלָּם. מִי כָמכָה בָּאֵלִים ה' מִי כָּמכָה נֶאְדָּר בַּקּדֶשׁ. נורָא תְהִלּת עשֵׂה פֶלֶא:</p>
-                        <p>מַלְכוּתְךָ ה' אֱלהֵינוּ רָאוּ בָנֶיךָ עַל הַיָּם יַחַד כֻּלָם הודוּ וְהִמְלִיכוּ וְאָמְרוּ ה' יִמְלךְ לְעולָם וָעֶד:</p>
+                        <p>מַלְכוּתְךָ ה' אֱלהֵינוּ רָאוּ בָנֶיךָ עַל הַיָּם יַחַד כֻּלָם הודוּ וְהִמְLִיכוּ וְאָמְרוּ ה' יִמְלךְ לְעולָם וָעֶד:</p>
                         <p>וְנֶאֱמַר כִּי פָדָה ה' אֶת יַעֲקב. וּגְאָלו מִיַּד חָזָק מִמֶּנּוּ:</p>
                         <p>בָּרוּךְ אַתָּה ה', גָּאַל יִשְׂרָאֵל:</p>
                         <p>הַשְׁכִּיבֵנוּ אָבִינוּ לְשָׁלום, וְהַעֲמִידֵנוּ מַלְכֵּנוּ לְחַיִּים טובִים וּלְשָׁלום, וּפְרושׂ עָלֵינוּ סֻכַּת שְׁלומֶךָ וְתַקְּנֵנוּ מַלְכֵּנוּ בְּעֵצָה טובָה מִלְּפָנֶיךָ, וְהושִׁיעֵנוּ מְהֵרָה לְמַעַן שְׁמֶךָ וְהָגֵן בַּעֲדֵנוּ. וְהָסֵר מֵעָלֵינוּ מַכַּת אויֵב. דֶּבֶר. חֶרֶב. חולִי. צָרָה. רָעָה. רָעָב. וְיָגון. וּמַשְׁחִית. וּמַגֵּפָה. שְׁבור וְהָסֵר הַשָּׂטָן מִלְּפָנֵינוּ וּמֵאַחֲרֵינוּ. וּבְצֵל כְּנָפֶיךָ תַּסְתִּירֵנוּ. וּשְׁמור צֵאתֵנוּ וּבואֵנוּ לְחַיִּים טובִים וּלְשָׁלום מֵעַתָּה וְעַד עולָם:</p>
@@ -629,9 +648,9 @@
                         <p>בָּרוּךְ אַתָּה ה', גּואֵל יִשְׂרָאֵל:</p>
                         <p>רְפָאֵנוּ ה' וְנֵרָפֵא. הושִׁיעֵנוּ וְנִוָּשֵׁעָה כִּי תְהִלָּתֵנוּ אָתָּה. וְהַעֲלֶה אֲרוּכָה וּמַרְפֵּא לְכָל תַּחֲלוּאֵינוּ. וּלְכָל מַכְאובֵינוּ וּלְכָל מַכּותֵינוּ. כִּי אֵל רופֵא רַחְמָן וְנֶאֱמָן אָתָּה:</p>
                         <p>בָּרוּךְ אַתָּה ה', רופֵא חולֵי עַמּו יִשְׂרָאֵל:</p>
-                        <p>בקיץ - בָּרְכֵנוּ ה' אֱלהֵינוּ בְּכָל מַעֲשֵי יָדֵינוּ. וּבָרֵךְ שְׁנָתֵנוּ בְּטַלְלֵי רָצון בְּרָכָה וּנְדָבָה. וּתְהִי אַחֲרִיתָהּ חַיִּים וְשָׂבָע וְשָׁלום כַּשָּׁנִים הַטּובות לִבְרָכָה. כִּי אֵל טוב וּמֵטִיב אַתָּה וּמְבָרֵךְ הַשָּׁנִים:</p>
+                        <p>בקיץ - בָּרְכֵנוּ ה' אֱלהֵינוּ בְּכָל מַעֲשֵי יָדֵינוּ. וּבָרֵךְ שְׁנָתֵנוּ בְּטַלְלֵי רָצון בְּרָכָה וּנְדָבָה. וּתְהִי אַחְרִיתָהּ חַיִּים וְשָׂבָע וְשָׁלום כַּשָּׁנִים הַטּובות לִבְרָכָה. כִּי אֵל טוב וּמֵטִיב אַתָּה וּמְבָרֵךְ הַשָּׁנִים:</p>
                         <p>בָּרוּךְ אַתָּה ה', מְבָרֵךְ הַשָּׁנִים:</p>
-                        <p>בחורף - בָּרֵךְ עָלֵינוּ ה' אֱלהֵינוּ אֶת הַשָּׁנָה הַזּאת. וְאֶת כָּל מִינֵי תְבוּאָתָהּ לְטובָה. וְתֵן טַל וּמָטָר לִבְרָכָה עַל כָּל פְּנֵי הָאֲדָמָה. וְרַוֵּה פְּנֵי תֵבֵל וְשַׂבַע אֶת הָעולָם כֻּלּו מִטּוּבָךְ. וּמַלֵּא יָדֵינוּ מִבִּרְכותֶיךָ וּמֵעשֶׁר מַתְּנות יָדֶיךָ. שָׁמְרָה וְהַצִּילָה שָׁנָה זו מִכָּל דָּבָר רָע. וּמִכָּל מִינֵי מַשְׁחִית וּמִכָּל מִינֵי פּוּרְעָנוּת. וַעֲשֵׂה לָהּ תִּקְוָה טובָה וְאַחֲרִית שָׁלום. חוּס וְרַחֵם עָלֶיהָ וְעַל כָּל תְּבוּאָתָהּ וּפֵירותֶיהָ. וּבָרְכָהּ בְּגִשְׁמֵי רָצון בְּרָכָה וּנְדָבָה. וּתְהִי אַחֲרִיתָהּ חַיִּים וְשָׂבָע וְשָׁלום. כַּשָּׁנִים הַטּובות לִבְרָכָה. כִּי אֵל טוב וּמֵטִיב אַתָּה וּמְבָרֵךְ הַשָּׁנִים:</p>
+                        <p>בחורף - בָּרֵךְ עָלֵינוּ ה' אֱלהֵינוּ אֶת הַשָּׁנָה הַזּאת. וְאֶת כָּל מִינֵי תְבוּאָתָהּ לְטובָה. וְתֵן טַל וּמָטָר לִבְרָכָה עַל כָּל פְּנֵי הָאֲדָמָה. וְרַוֵּה פְּנֵי תֵבֵל וְשַׂבַע אֶת הָעולָם כֻּלּו מִטּוּבָךְ. וּמַלֵּא יָדֵינוּ מִבִּרְכותֶיךָ וּמֵעשֶׁר מַתְּנות יָדֶיךָ. שָׁמְרָה וְהַצִּילָה שָׁנָה זו מִכָּל דָּבָר רָע. וּמִכָּל מִינֵי מַשְׁחִית וּמִכָּל מִינֵי פּוּרְעָנוּת. וַעֲשֵׂה לָהּ תִּקְוָה טובָה וְאַחְרִית שָׁלום. חוּס וְרַחֵם עָלֶיהָ וְעַל כָּל תְּבוּאָתָהּ וּפֵירותֶיהָ. וּבָרְכָהּ בְּגִשְׁמֵי רָצון בְּרָכָה וּנְדָבָה. וּתְהִי אַחְרִיתָהּ חַיִּים וְשָׂבָע וְשָׁלום. כַּשָּׁנִים הַטּובות לִבְרָכָה. כִּי אֵל טוב וּמֵטִיב אַתָּה וּמְבָרֵךְ הַשָּׁנִים:</p>
                         <p>בָּרוּךְ אַתָּה ה', מְבָרֵךְ הַשָּׁנִים:</p>
                         <p>תְּקַע בְּשׁופָר גָּדול לְחֵרוּתֵנוּ. וְשָׂא נֵס לְקַבֵּץ גָּלֻיּותֵינוּ. וְקַבְּצֵנוּ יַחַד מֵאַרְבַּע כַּנְפות הָאָרֶץ לְאַרְצֵנוּ:</p>
                         <p>בָּרוּךְ אַתָּה ה' (יאהדונהי), מְקַבֵּץ נִדְחֵי עַמּו יִשְׂרָאֵל:</p>
@@ -642,4 +661,415 @@
                         <p>בָּרוּךְ אַתָּה ה', שׁובֵר אויְבִים וּמַכְנִיעַ זֵדִים:</p>
                         <p>עַל הַצַּדִּיקִים וְעַל הַחֲסִידִים וְעַל שְׁאֵרִית עַמְּךָ בֵּית יִשְׂרָאֵל. וְעַל זִקְנֵיהֶם. וְעַל פְּלֵיטַת בֵּית סופְרֵיהֶם. וְעַל גֵּרֵי הַצֶּדֶק וְעָלֵינוּ. יֶהֱמוּ נָא רַחֲמֶיךָ ה' אֱלהֵינוּ וְתֵן שָׂכָר טוב לְכָל הַבּוטְחִים בְּשִׁמְךָ בֶּאֱמֶת. וְשִׂים חֶלְקֵנוּ עִמָּהֶם. וּלְעולָם לא נֵבושׁ כִּי בְךָ בָּטָחְנוּ. וְעַל חַסְדְּךָ הַגָּדול בֶּאֱמֶת נִשְׁעָנְנוּ:</p>
                         <p>בָּרוּךְ אַתָּה ה', מִשְׁעָן וּמִבְטָח לַצַּדִּיקִים:</p>
-                        <p>תִּשְׁכּון בְּתוךְ יְרוּשָׁלַיִם עִירְךָ כַּאֲשֶׁר דִּבַּרְתָּ. וְכִסֵּא דָוִד עַבְדְּךָ מְהֵרָה בְתוכָהּ תָּכִין וּבְנֵה אותָהּ בִּנְיַן עולָם בִּמְהֵ
+                        <p>תִּשְׁכּון בְּתוךְ יְרוּשָׁלַיִם עִירְךָ כַּאֲשֶׁר דִּבַּרְתָּ. וְכִסֵּא דָוִד עַבְדְּךָ מְהֵרָה בְתוכָהּ תָּכִין. וּבְנֵה אותָהּ בִּנְיַן עולָם בִּמְהֵרָה בְיָמֵינוּ. בָּרוּךְ אַתָּה ה', בּונֵה יְרוּשָׁלָיִם:</p>
+                        `
+                },
+                alHamichya: {
+                    title: "ברכת על המחיה",
+                    type: "text", 
+                    illustration: null,
+                    hebrew: `<p class="text-placeholder-notice">PASTE COMPLETE HEBREW TEXT FOR AL HAMICHYA (EDUT HAMIZRACH) HERE.</p>`
+                },
+                boreiNefashot: {
+                    title: "ברכת בורא נפשות",
+                    type: "text",
+                    illustration: null,
+                    hebrew: `<p class="text-placeholder-notice">PASTE COMPLETE HEBREW TEXT FOR BOREI NEFASHOT (EDUT HAMIZRACH) HERE.</p>`
+                },
+                alHamichyaCard: {
+                    title: "ברכת על המחיה (כרטיס להדפסה)",
+                    type: "pdf", // This type still helps differentiate, though download is universal
+                    pdfFileName: "Al_Hamichya_Card.pdf",
+                    illustration: null, 
+                    hebrew: `
+                        <div class="pdf-description">
+                            <p>This is a printable card for ברכת על המחיה.</p>
+                        </div>
+                        <div id="alHamichyaCardContent" class="parchment" style="width:210mm; min-height:100mm; padding:15mm; margin: 0 auto; text-align:center; font-size: 14pt; line-height:1.6;">
+                            <h3 class="prayer-title" style="font-size: 1.5em;">ברכת על המחיה</h3>
+                            <div class="hebrew-text" style="font-size: 1.1em;">
+                                <p>בָּרוּךְ אַתָּה ה' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם עַל הַמִּחְיָה וְעַל הַכַּלְכָּלָה,</p>
+                                <p>וְעַל גֶּפֶן וְעַל פְּרִי הַגֶּפֶן,</p>
+                                <p>וְעַל תְּנוּבַת הַשָּׂדֶה וְעַל אֶרֶץ חֶמְדָּה טוֹבָה וּרְחָבָה שֶׁרָצִיתָ וְהִנְחַלְתָּ לַאֲבוֹתֵינוּ לֶאֱכוֹל מִפִּרְיָהּ וְלִשְׂבּוֹעַ מִטּוּבָהּ.</p>
+                                <p>רַחֵם נָא ה' אֱלֹהֵינוּ עַל יִשְׂרָאֵל עַמֶּךָ וְעַל יְרוּשָׁלַיִם עִירֶךָ וְעַל צִיּוֹן מִשְׁכַּן כְּבוֹדֶךָ וְעַל מִזְבְּחֶךָ וְעַל הֵיכָלֶךָ.</p>
+                                <p>וּבְנֵה יְרוּשָׁלַיִם עִיר הַקֹּדֶשׁ בִּמְהֵרָה בְיָמֵינוּ, וְהַעֲלֵנוּ לְתוֹכָהּ וְשַׂמְּחֵנוּ בְּבִנְיָנָהּ וְנֹאכַל מִפִּרְיָהּ וְנִשְׂבַּע מִטּוּבָהּ וּנְבָרֶכְךָ עָלֶיהָ בִּקְדֻשָּׁה וּבְטָהֳרָה.</p>
+                                <p class="font-bold">(בשבת: וּרְצֵה וְהַחֲלִיצֵנוּ בְּיוֹם הַשַּׁבָּת הַזֶּה.)</p>
+                                <p class="font-bold">(בראש חודש: וְזָכְרֵנוּ לְטוֹבָה בְּיוֹם רֹאשׁ הַחֹדֶשׁ הַזֶּה.)</p>
+                                <p class="font-bold">(בפסח: וְשַׂמְּחֵנוּ בְּיוֹם חַג הַמַּצּוֹת הַזֶּה.)</p>
+                                <p class="font-bold">(בשבועות: וְשַׂמְּחֵנוּ בְּיוֹם חַג הַשָּׁבוּעוֹת הַזֶּה.)</p>
+                                <p class="font-bold">(בסוכות: וְשַׂמְּחֵנוּ בְּיוֹם חַג הַסֻּכּוֹת הַזֶּה.)</p>
+                                <p class="font-bold">(בשמיני עצרת ושמחת תורה: וְשַׂמְּחֵנוּ בְּיוֹם שְׁמִינִי עֲצֶרֶת הֶחָג הַזֶּה.)</p>
+                                <p>כִּי אַתָּה ה' טוֹב וּמֵטִיב לַכֹּל וְנוֹדֶה לְּךָ עַל הָאָרֶץ וְעַל הַמִּחְיָה (וְעַל פְּרִי גַפְנָהּ).</p>
+                                <p>בָּרוּךְ אַתָּה ה', עַל הָאָרֶץ וְעַל הַמִּחְיָה (וְעַל פְּרִי גַפְנָהּ).</p>
+                            </div>
+                        </div>
+                    `
+                },
+                sefiratHaomerChart: {
+                    title: "ספירת העומר (טבלה להדפסה)",
+                    type: "pdf",
+                    pdfFileName: "Sefirat_Haomer_Chart.pdf",
+                    illustration: null,
+                    hebrew: `
+                        <div class="pdf-description">
+                            <p>This is a printable chart for ספירת העומר.</p>
+                        </div>
+                        <div id="sefiratHaomerChartContent" class="parchment" style="width:210mm; min-height:297mm; padding:10mm; margin: 0 auto; font-size: 10pt;">
+                            <h3 class="prayer-title" style="font-size: 1.8em;">טבלת ספירת העומר</h3>
+                            <div class="hebrew-text" style="font-size: 0.9em; text-align: right; line-height: 1.5;">
+                                <p><strong>הַלַּיְלָה, יוֹם אֶחָד לָעֹמֶר.</strong></p>
+                                <p>הָרַחֲמָן הוּא יַחֲזִיר לָנוּ עֲבוֹדַת בֵּית הַמִּקְדָּשׁ לִמְקוֹמָהּ בִּמְהֵרָה בְיָמֵינוּ, אָמֵן סֶלָה.</p>
+                                <hr class="my-2 border-gray-400">
+                                <p>לַמְנַצֵּחַ בִּנְגִינֹת מִזְמוֹר שִׁיר. אֱלֹהִים יְחָנֵּנוּ וִיבָרְכֵנוּ. יָאֵר פָּנָיו אִתָּנוּ סֶלָה. לָדַעַת בָּאָרֶץ דַּרְכֶּךָ. בְּכָל גּוֹיִם יְשׁוּעָתֶךָ. יוֹדוּךָ עַמִּים אֱלֹהִים. יוֹדוּךָ עַמִּים כֻּלָּם. יִשְׂמְחוּ וִירַנְּנוּ לְאֻמִּים. כִּי תִשְׁפֹּט עַמִּים מִישׁוֹר. וּלְאֻמִּים בָּאָרֶץ תַּנְחֵם סֶלָה. יוֹדוּךָ עַמִּים אֱלֹהִים. יוֹדוּךָ עַמִּים כֻּלָּם. אֶרֶץ נָתְנָה יְבוּלָהּ. יְבָרְכֵנוּ אֱלֹהִים אֱלֹהֵינוּ. יְבָרְכֵנוּ אֱלֹהִים. וְיִירְאוּ אוֹתוֹ כָּל אַפְסֵי אָרֶץ.</p>
+                                <hr class="my-2 border-gray-400">
+                                <p>אָנָּא בְּכֹחַ גְּדֻלַּת יְמִינְךָ תַּתִּיר צְרוּרָה. (אב"ג ית"ץ)</p>
+                                <p>קַבֵּל רִנַּת עַמְּךָ שַׂגְּבֵנוּ טַהֲרֵנוּ נוֹרָא. (קר"ע שט"ן)</p>
+                                <p>נָא גִבּוֹר דּוֹרְשֵׁי יִחוּדְךָ כְּבָבַת שָׁמְרֵם. (נג"ד יכ"ש)</p>
+                                <p>בָּרְכֵם טַהֲרֵם רַחֲמֵי צִדְקָתְךָ תָּמִיד גָּמְלֵם. (בט"ר צת"ג)</p>
+                                <p>חֲסִין קָדוֹשׁ בְּרוֹב טוּבְךָ נַהֵל עֲדָתֶךָ. (חק"ב טנ"ע)</p>
+                                <p>יָחִיד גֵּאֶה לְעַמְּךָ פְּנֵה זוֹכְרֵי קְדֻשָּׁתֶךָ. (יג"ל פז"ק)</p>
+                                <p>שַׁוְעָתֵנוּ קַבֵּל וּשְׁמַע צַעֲקָתֵנוּ יוֹדֵעַ תַּעֲלוּמוֹת. (שק"ו צית)</p>
+                                <p class="text-center">בָּרוּךְ שֵׁם כְּבוֹד מַלְכוּתוֹ לְעוֹלָם וָעֶד.</p>
+                                <hr class="my-2 border-gray-400">
+                                <p class="text-center font-bold text-lg">יְהִי רָצוֹן מִלְּפָנֶיךָ ה' אֱלֹהֵינוּ וֵאלֹהֵי אֲבוֹתֵינוּ, שֶׁתִּבְנֶה בֵּית הַמִּקְדָּשׁ בִּמְהֵרָה בְיָמֵינוּ, וְתֵן חֶלְקֵנוּ בְּתוֹרָתֶךָ, וְשָׁם נַעֲבָדְךָ בְּיִרְאָה כִּימֵי עוֹלָם וּכְשָׁנִים קַדְמוֹנִיּוֹת.</p>
+                                </div>
+                        </div>
+                    `
+                }
+            }; 
+
+            const prayerSelector = document.getElementById('prayerSelector');
+            const prayerOutput = document.getElementById('prayerOutput');
+            const prayerOutputToPrint = document.getElementById('prayerOutputToPrint');
+            const prayerFilter = document.getElementById('prayerFilter');
+            const fontControlsContainer = document.getElementById('fontControlsContainer');
+            const hebrewTextElements = () => document.querySelectorAll('#prayerOutput .hebrew-text, #prayerOutputToPrint .hebrew-text');
+            let currentFontSize = 1.2; 
+            
+            function renderPrayer(prayerKey) {
+                prayerOutput.innerHTML = ''; 
+                prayerOutputToPrint.innerHTML = ''; 
+                fontControlsContainer.classList.add('hidden');
+
+                if (!prayerKey || !prayerData[prayerKey]) {
+                    prayerOutput.innerHTML = '<p class="text-center text-gray-500 dark:text-gray-400">Please select a prayer or resource from the list.</p>';
+                    return;
+                }
+
+                const prayer = prayerData[prayerKey];
+                let contentHtml = ''; // For live display
+                let printPageHtml = ''; // For #prayerOutputToPrint div
+
+                if (prayer.illustration) {
+                    contentHtml += `<div class="illustration-container">${prayer.illustration}</div>`;
+                    printPageHtml += `<div class="illustration-container">${prayer.illustration}</div>`;
+                }
+                contentHtml += `<h3 class="prayer-title">${prayer.title}</h3>`;
+                printPageHtml += `<h3 class="prayer-title">${prayer.title}</h3>`;
+                
+                if (prayer.type === "text") {
+                    contentHtml += `<div class="parchment hebrew-text">${prayer.hebrew}</div>`;
+                    printPageHtml += `<div class="parchment hebrew-text">${prayer.hebrew}</div>`;
+                    fontControlsContainer.classList.remove('hidden');
+                } else if (prayer.type === "pdf") { // For items like Al Hamichya Card, Sefirat Haomer Chart
+                    contentHtml += `<div class="parchment">${prayer.hebrew}</div>`; // This contains the description and the specific content div (e.g. #alHamichyaCardContent)
+                    // For printing PDF items, we want the actual card content from prayer.hebrew
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = prayer.hebrew;
+                    const cardContentElement = tempDiv.querySelector(`#${prayerKey}Content`);
+                    if (cardContentElement) {
+                        printPageHtml += cardContentElement.outerHTML;
+                    } else { // Fallback if the specific ID isn't found
+                        printPageHtml += `<div class="parchment">${prayer.hebrew}</div>`;
+                    }
+                }
+                
+                // Add Universal Download PDF button for ALL valid prayers
+                if (prayerKey && prayerData[prayerKey]) {
+                    contentHtml += `<div class="button-container"><button id="universalDownloadPdfBtn" class="custom-btn action-btn">Download as PDF</button></div>`;
+                }
+                
+                prayerOutput.innerHTML = contentHtml;
+                prayerOutputToPrint.innerHTML = printPageHtml; // Populate the dedicated print div
+
+                if (prayerKey && prayerData[prayerKey]) {
+                    const universalDownloadBtn = document.getElementById('universalDownloadPdfBtn');
+                    if (universalDownloadBtn) {
+                        // Ensure fresh listener
+                        const newBtn = universalDownloadBtn.cloneNode(true);
+                        universalDownloadBtn.parentNode.replaceChild(newBtn, universalDownloadBtn);
+                        newBtn.addEventListener('click', () => generateUniversalPdf(prayerKey));
+                    }
+                }
+                updateFontSize();
+            }
+
+            prayerSelector.addEventListener('change', function() {
+                renderPrayer(this.value);
+            });
+
+            prayerFilter.addEventListener('input', function() {
+                const filterText = this.value.toLowerCase().trim();
+                const options = prayerSelector.getElementsByTagName('option');
+                for (let i = 0; i < options.length; i++) {
+                    const option = options[i];
+                    if (option.value === "") { 
+                        option.style.display = (filterText === "") ? '' : 'none';
+                        continue;
+                    }
+                    const optionText = option.textContent.toLowerCase();
+                    const prayerKey = option.value;
+                    const englishTitle = prayerData[prayerKey]?.englishTitle?.toLowerCase() || "";
+                    
+                    if (optionText.includes(filterText) || prayerKey.toLowerCase().includes(filterText) || englishTitle.includes(filterText)) {
+                        option.style.display = '';
+                    } else {
+                        option.style.display = 'none';
+                    }
+                }
+            });
+
+            function updateFontSize() {
+                hebrewTextElements().forEach(el => el.style.fontSize = `${currentFontSize}rem`);
+            }
+
+            document.getElementById('increaseFontBtn').addEventListener('click', () => {
+                currentFontSize = Math.min(currentFontSize + 0.1, 3.0); 
+                updateFontSize();
+            });
+            document.getElementById('decreaseFontBtn').addEventListener('click', () => {
+                currentFontSize = Math.max(currentFontSize - 0.1, 0.8); 
+                updateFontSize();
+            });
+            document.getElementById('resetFontBtn').addEventListener('click', () => {
+                currentFontSize = 1.2; 
+                updateFontSize();
+            });
+
+            const themeToggleBtn = document.getElementById('themeToggleBtn');
+            const themeIconMoon = document.getElementById('themeIconMoon');
+            const themeIconSun = document.getElementById('themeIconSun');
+
+            function applyTheme(isDark) {
+                 if (isDark) {
+                    document.documentElement.classList.add('dark');
+                    themeIconMoon.classList.add('hidden');
+                    themeIconSun.classList.remove('hidden');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    themeIconMoon.classList.remove('hidden');
+                    themeIconSun.classList.add('hidden');
+                }
+            }
+            
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                applyTheme(true);
+            } else {
+                applyTheme(false);
+            }
+            
+            themeToggleBtn.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.toggle('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                applyTheme(isDark);
+            });
+
+            const aboutBtn = document.getElementById('aboutBtn');
+            const aboutUsModal = document.getElementById('aboutUsModal');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+
+            if (aboutBtn && aboutUsModal && closeModalBtn) {
+                aboutBtn.addEventListener('click', () => aboutUsModal.style.display = 'block');
+                closeModalBtn.addEventListener('click', () => aboutUsModal.style.display = 'none');
+                window.addEventListener('click', (event) => {
+                    if (event.target == aboutUsModal) {
+                        aboutUsModal.style.display = 'none';
+                    }
+                });
+            }
+            
+            const homeBtn = document.getElementById('homeBtn');
+            if (homeBtn) {
+                homeBtn.addEventListener('click', () => {
+                    window.location.reload();
+                });
+            }
+
+            const returnToTopBtn = document.getElementById('returnToTopBtn');
+            if (returnToTopBtn) {
+                window.onscroll = function() {
+                    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                        returnToTopBtn.style.display = "block";
+                    } else {
+                        returnToTopBtn.style.display = "none";
+                    }
+                };
+                returnToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                });
+            }
+
+            async function generateUniversalPdf(prayerKey) {
+                const prayer = prayerData[prayerKey];
+                if (!prayer) {
+                    showCustomMessage('Cannot generate PDF: Prayer data not found.', 'error');
+                    return;
+                }
+
+                const { jsPDF } = window.jspdf;
+                const pdfContentSourceElement = document.getElementById('prayerOutputToPrint');
+
+                if (!pdfContentSourceElement || !pdfContentSourceElement.innerHTML.trim()) {
+                    showCustomMessage('Error: No content available in prayerOutputToPrint to generate PDF.', 'error');
+                    return;
+                }
+                
+                // Temporarily make a clone of the source visible for html2canvas, styled for PDF
+                const captureElement = pdfContentSourceElement.cloneNode(true);
+                captureElement.id = 'pdfCaptureElement'; // Unique ID for the clone
+                captureElement.style.display = 'block';
+                captureElement.style.position = 'absolute';
+                captureElement.style.left = '-9999px'; // Move off-screen
+                captureElement.style.top = '-9999px';
+                captureElement.style.width = '210mm'; 
+                captureElement.style.padding = '15mm';
+                captureElement.style.margin = '0';
+                captureElement.style.border = 'none'; // No border for the capture itself unless intended
+                captureElement.style.boxSizing = 'border-box';
+                
+                // Ensure a white background for the capture area, not transparent
+                if (captureElement.classList.contains('parchment') || captureElement.querySelector('.parchment')) {
+                     const parchments = captureElement.querySelectorAll('.parchment');
+                     parchments.forEach(p => {
+                        p.style.backgroundColor = '#FFFFFF';
+                        p.style.backgroundImage = 'none'; // Remove parchment texture for PDF
+                        p.style.border = '1px solid #DDDDDD'; // Optional light border for definition
+                        p.style.boxShadow = 'none';
+                     });
+                     // If the capture element itself is meant to be the parchment
+                     if(captureElement.classList.contains('parchment')) {
+                        captureElement.style.backgroundColor = '#FFFFFF';
+                        captureElement.style.backgroundImage = 'none';
+                        captureElement.style.border = '1px solid #DDDDDD';
+                        captureElement.style.boxShadow = 'none';
+                     }
+                } else {
+                    captureElement.style.backgroundColor = '#FFFFFF'; // Default white background
+                }
+
+
+                document.body.appendChild(captureElement);
+
+
+                try {
+                    const canvas = await html2canvas(captureElement, {
+                        scale: 2.5, 
+                        useCORS: true,
+                        logging: false, 
+                        onclone: (clonedDoc) => {
+                            const clonedContent = clonedDoc.getElementById('pdfCaptureElement');
+                            if (clonedContent) {
+                                clonedContent.style.display = 'block';
+                                // Ensure text is black for PDF and fonts are applied
+                                const textElements = clonedContent.querySelectorAll('.hebrew-text, .hebrew-text p, .prayer-title, .pdf-description p');
+                                textElements.forEach(el => {
+                                    el.style.fontFamily = "'Noto Serif Hebrew', 'Inter', serif"; // Ensure fonts
+                                    el.style.color = '#000000'; 
+                                    el.style.backgroundColor = 'transparent'; // Ensure text bg is transparent
+                                });
+                                const illustrations = clonedContent.querySelectorAll('.illustration-container svg');
+                                illustrations.forEach(svg => {
+                                    svg.style.fill = '#000000'; 
+                                });
+                                const unwanted = clonedContent.querySelectorAll('button, input, select, .no-print');
+                                unwanted.forEach(el => el.remove());
+                            }
+                        }
+                    });
+                    
+                    document.body.removeChild(captureElement); // Clean up the cloned element
+
+                    const imgData = canvas.toDataURL('image/png');
+                    const pdf = new jsPDF({
+                        orientation: 'p', 
+                        unit: 'mm',
+                        format: 'a4'
+                    });
+
+                    const imgProps = pdf.getImageProperties(imgData);
+                    const pdfPageWidth = pdf.internal.pageSize.getWidth();
+                    const pdfPageHeight = pdf.internal.pageSize.getHeight();
+                    const margin = 15; 
+                    
+                    let renderableWidth = pdfPageWidth - 2 * margin;
+                    let renderableHeight = imgProps.height * renderableWidth / imgProps.width; 
+
+                    if (renderableHeight > pdfPageHeight - 2 * margin) { 
+                        renderableHeight = pdfPageHeight - 2 * margin;
+                        renderableWidth = imgProps.width * renderableHeight / imgProps.height;
+                    }
+                    
+                    let x = margin + ((pdfPageWidth - 2 * margin) - renderableWidth) / 2; 
+                    let y = margin; 
+
+                    pdf.addImage(imgData, 'PNG', x, y, renderableWidth, renderableHeight);
+                    const safeFileName = (prayer.title.replace(/[^a-z0-9א-ת _-]/gi, '_').replace(/__/g, '_') || 'prayer_document') + '.pdf';
+                    pdf.save(safeFileName);
+
+                } catch (error) {
+                    console.error("Error generating universal PDF:", error);
+                    showCustomMessage("Sorry, there was an error generating the PDF. Please ensure all content is loaded and try again.", 'error');
+                    if (document.getElementById('pdfCaptureElement')) { // Clean up if error occurred after append
+                        document.body.removeChild(document.getElementById('pdfCaptureElement'));
+                    }
+                }
+            }
+            
+            function showCustomMessage(message, type = 'info') {
+                console.log(`CustomMessage (${type}):`, message);
+                const messageArea = prayerOutput.querySelector('.button-container') || prayerOutput; // Try to put it near button
+                const messageDiv = document.createElement('div');
+                messageDiv.style.padding = '10px';
+                messageDiv.style.marginTop = '10px';
+                messageDiv.style.borderRadius = '5px';
+                messageDiv.style.textAlign = 'center';
+                messageDiv.style.clear = 'both'; // Ensure it's below floated elements
+                if (type === 'error') {
+                    messageDiv.style.backgroundColor = 'var(--parchment-bg)';
+                    messageDiv.style.color = '#c0392b';
+                    messageDiv.style.border = '1px solid #c0392b';
+                } else {
+                    messageDiv.style.backgroundColor = 'var(--parchment-bg)';
+                    messageDiv.style.color = 'var(--text-color)';
+                    messageDiv.style.border = '1px solid var(--parchment-border)';
+                }
+                messageDiv.textContent = message;
+                
+                const existingMsg = messageArea.querySelector('.custom-transient-message');
+                if(existingMsg) existingMsg.remove(); // Remove old message if any
+                messageDiv.classList.add('custom-transient-message');
+
+                if (messageArea === prayerOutput.querySelector('.button-container')) {
+                     messageArea.parentNode.insertBefore(messageDiv, messageArea.nextSibling); // Insert after button container
+                } else {
+                    messageArea.appendChild(messageDiv); // Append to prayerOutput if no button container
+                }
+
+                setTimeout(() => {
+                    if (messageDiv.parentNode) {
+                        messageDiv.remove();
+                    }
+                }, 7000); 
+            }
+            
+            if (!prayerSelector.value) {
+                 prayerOutput.innerHTML = '<p class="text-center text-gray-500 dark:text-gray-400 p-8">Welcome! Please select a prayer or resource from the dropdown menu above. You can also use the filter to search.</p>';
+            }
+
+        }); 
+    </script>
+</body>
+</html>
